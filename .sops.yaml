@@ -1,0 +1,21 @@
+keys:
+  - &primary age1wpgl09ph4uh2xfy9l79qmwfrc0uzytchqm9mp3952jcmyj000qas4v4n62
+  - &spiffy age1e7n4j8tlkuhkxk9y6v3v0r0z2lsvd7k425js4n854hg2pm63f5vsd4xlvw
+  - &drippy age1x7hgr9re0sj84x35q52g59gu5wuns2t37z6hq2r42kyrxrtfqvastj22fs
+creation_rules:
+  - path_regex: secrets/global.yaml$
+    key_groups:
+    - age:
+      - *primary
+      - *spiffy
+      - *drippy
+  - path_regex: secrets/spiffy.yaml$
+    key_groups:
+    - age:
+      - *primary
+      - *spiffy
+  - path_regex: secrets/drippy.yaml$
+    key_groups:
+    - age:
+      - *primary
+      - *drippy
