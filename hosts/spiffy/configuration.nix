@@ -82,6 +82,30 @@ in
     };
   };
 
+  # ### syncthing
+  # services.syncthing = {
+  #   enable = true;
+  #   openDefaultPorts = true;
+  #   guiAddress = "0.0.0.0:8384";
+  #   settings.gui = {
+  #     user = "xxx";
+  #     password = "xxx";
+  #   };
+  #   settings.options.urAccepted = -1;
+  #   settings.devices = {
+  #     "MBP" = { id = "xxx"; };
+  #     "ONEPLUS" = { id = "xxx"; };
+  #   };
+  # };
+  # services.nginx.virtualHosts."syncthing.internal.momme.world" = (createProxyHost {
+  #   sslCert = "internal.momme.world";
+  #   targetPort = 8384;
+  #   extraConfig = ''
+  #     allow 100.89.69.125; # tailnet MBP
+  #     allow fd7a:115c:a1e0:ab12:4843:cd96:6259:457d; # tailnet MBP
+  #     deny all;
+  #   '';
+  # });
 
   ### wg-calendar-generator
   services.nginx.virtualHosts."wg-calendar-generator.momme.world" = {

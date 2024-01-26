@@ -2,7 +2,7 @@
   security.sudo.wheelNeedsPassword = false;
   users.users.momme = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "syncthing" ];
     packages = with pkgs; [
   #     firefox
   #     tree
