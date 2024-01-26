@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{ inputs, config, lib, pkgs, modulesPath, ... }:
 let
   createProxyHost = { sslCert, targetPort, extraConfig ? "" }: {
     forceSSL = true;
@@ -83,6 +83,14 @@ in
   };
 
 
+  ### wg-calendar-generator
+  services.nginx.virtualHosts."wg-calendar-generator.momme.world" = {
+    forceSSL = true;
+    sslCertificateKey = "/var/lib/acme/momme.world/key.pem";
+    sslCertificate = "/var/lib/acme/momme.world/cert.pem";
+    root = inputs.wg-calendar-generator.packages.x86_64-linux.default;
+  };
+
   ### samba
   services.samba = {
     enable = true;
@@ -96,6 +104,26 @@ in
     '';
 
     shares = {
+      camera = {
+        path = "/spiffy-data-1/camera/";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0640";
+        "directory mask" = "0750";
+        "force user" = "syncthing";
+        "force group" = "syncthing";
+      };
+      documents = {
+        path = "/spiffy-data-1/documents/";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0640";
+        "directory mask" = "0750";
+        "force user" = "momme";
+        "force group" = "users";
+      };
       music = {
         path = "/spiffy-data-1/Music/";
         browseable = "yes";
