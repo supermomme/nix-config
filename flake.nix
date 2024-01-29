@@ -32,7 +32,6 @@
           ./common/openssh.nix
           ./common/tailscale.nix
           ./common/firewall.nix
-          # inputs.microvm.nixosModules.host
         ];
       };
 
@@ -48,6 +47,20 @@
           ./common/tailscale.nix
           ./common/firewall.nix
           inputs.home-manager.nixosModules.home-manager
+        ];
+      };
+
+      # nix-shell --command "build-zippity"
+      zippity = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
+        modules = [ 
+          ./hosts/zippity/configuration.nix
+          ./common/common.nix
+          ./common/sops.nix
+          ./common/users.nix
+          ./common/openssh.nix
+          ./common/tailscale.nix
+          ./common/firewall.nix
         ];
       };
     };
