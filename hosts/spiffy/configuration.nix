@@ -181,6 +181,16 @@ in
         "force user" = "momme";
         "force group" = "users";
       };
+      misc = {
+        path = "/spiffy-data-1/misc/";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "momme";
+        "force group" = "users";
+      };
     };
   };
 
