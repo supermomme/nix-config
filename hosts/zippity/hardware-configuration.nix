@@ -13,15 +13,14 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+  boot.loader.grub.device = "/dev/sda";
 
   systemd.network.enable = true;
   systemd.network.networks."10-wan" = {
-    matchConfig.Name = "ens3"; # either ens3 (amd64) or enp1s0 (arm64)
+    matchConfig.Name = "ens3";
     networkConfig.DHCP = "ipv4";
     address = [
-      # replace this address with the one assigned to your instance
-      "2a01:4f8:c012:ff9a::/64"
+      "2a01:4f8:c012:11d5::1/64"
     ];
     routes = [
       { routeConfig.Gateway = "fe80::1"; }
@@ -29,12 +28,12 @@
   };
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/a1c58f76-c00a-46d4-9b06-93d3d508d399";
+    { device = "/dev/disk/by-uuid/12d3f491-e5e3-4e68-bae5-e48ac45c7022";
       fsType = "ext4";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/4a7fa37c-78a1-4364-afcf-0c95d62a8de8"; }
+    [ { device = "/dev/disk/by-uuid/e0bfb5f5-d2f7-41f4-98c4-60b6b8035ca2"; }
     ];
 
   networking.useNetworkd = lib.mkDefault true;
