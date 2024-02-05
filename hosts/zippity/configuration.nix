@@ -1,6 +1,7 @@
 { inputs, config, lib, pkgs, modulesPath, ... }: {
   imports = [
     ./hardware-configuration.nix
+    ./modules/mailserver.nix
   ];
 
   networking.hostName = "zippity"; # Define your hostname.

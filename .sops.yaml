@@ -21,3 +21,8 @@ creation_rules:
     - age:
       - *primary
       - *drippy
+  - path_regex: secrets/zippity.yaml$
+    key_groups:
+    - age:
+      - *primary
+      - *zippity
