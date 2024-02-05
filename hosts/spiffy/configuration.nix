@@ -148,8 +148,8 @@ in
         "guest ok" = "no";
         "create mask" = "0640";
         "directory mask" = "0750";
-        "force user" = "syncthing";
-        "force group" = "syncthing";
+        "force user" = "momme";
+        "force group" = "users";
       };
       documents = {
         path = "/spiffy-data-1/documents/";
