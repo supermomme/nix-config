@@ -34,7 +34,6 @@
           ./common/users.nix
           ./common/openssh.nix
           ./common/tailscale.nix
-          ./common/firewall.nix
         ];
       };
 

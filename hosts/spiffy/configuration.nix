@@ -21,15 +21,12 @@ in
     ./modules/homeassistant.nix
     ./modules/invidious.nix
     ./modules/monitoring.nix
+    ./modules/network.nix
     ./modules/ntfy.nix
     ./modules/radicale.nix
     ./modules/samba.nix
     ./modules/wg-calendar-generator.nix
   ];
-
-  networking.hostName = "spiffy"; # Define your hostname.
-  networking.firewall.allowPing = false;
-
 
   ### acme
   sops.secrets."cloudflare-creds" = { sopsFile = ../../secrets/spiffy.yaml; };
@@ -53,8 +50,6 @@ in
 
 
   ### nginx-proxy
-  # networking.firewall.interfaces."tailscale0".allowedTCPPorts = [ 80 443 ];
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;
