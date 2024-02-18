@@ -1,4 +1,6 @@
-{ config, ... }: {
+{ config, ... }: let
+  inherit (import ./utils.nix) createProxyHost;
+in {
   ### monitoring
   services.prometheus = {
     enable = true;
@@ -35,4 +37,8 @@
     settings.server.http_port = 3030;
     settings.server.http_addr = "0.0.0.0";
   };
+
+  ### Uptime-Kuma
+  services.uptime-kuma.enable = true;
+  services.nginx.virtualHosts."uptime.momme.world" = (createProxyHost { sslCert = "momme.world"; targetPort = 3001; });
 }
