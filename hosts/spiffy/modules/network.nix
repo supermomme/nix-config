@@ -19,8 +19,12 @@
           icmp type echo-request accept
           tcp dport {ssh, http, https} accept
           iifname tailscale0 tcp dport {8123} accept
+
+          # unifi controller
           iifname enp0s25 tcp dport {8443, 8080, 6789} accept
           iifname enp0s25 udp dport {10001, 3478} accept
+          iifname tailscale0 tcp dport {8443, 8080, 6789} accept
+          iifname tailscale0 udp dport {10001, 3478} accept
 
           icmpv6 type echo-request counter accept
           icmpv6 type nd-neighbor-solicit counter accept
