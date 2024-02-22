@@ -19,7 +19,8 @@
           icmp type echo-request accept
           tcp dport {ssh, http, https} accept
           iifname tailscale0 tcp dport {8123} accept
-          iifname enp0s25 tcp dport {8443} accept
+          iifname enp0s25 tcp dport {8443, 8080, 6789} accept
+          iifname enp0s25 udp dport {10001, 3478} accept
 
           icmpv6 type echo-request counter accept
           icmpv6 type nd-neighbor-solicit counter accept
@@ -107,6 +108,8 @@
   ### Unifi Controller
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "unifi-controller" "mongodb" ];
   services.unifi.enable = true;
+  services.unifi.unifiPackage = pkgs.unifi7;
+  services.unifi.mongodbPackage = pkgs.mongodb-4_4;
 
   environment.systemPackages = with pkgs; [
     nftables
