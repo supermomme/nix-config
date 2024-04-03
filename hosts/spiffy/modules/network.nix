@@ -18,7 +18,7 @@
           iifname lo accept
           icmp type echo-request accept
           tcp dport {ssh, http, https} accept
-          iifname tailscale0 tcp dport {8123} accept
+          iifname tailscale0 tcp dport {8123, 445} accept comment "Home Assistant and samba"
 
           # unifi controller
           iifname enp0s25 tcp dport {8443, 8080, 6789} accept
@@ -60,18 +60,36 @@
       };
     };
 
+    netdevs = {
+      "30-vlan30-iot2" = {
+        netdevConfig = {
+          Kind = "vlan";
+          Name = "vlan30";
+        };
+        vlanConfig.Id = 30;
+      };
+    };
+
     networks = {
       "00-management" = {
         matchConfig.Name = "enp0s25";
         networkConfig.DHCP = "yes";
         vlan = [
           "vlan20"
+          "vlan30"
         ];
       };
       "21-vlan20-iot" = {
         matchConfig.Name = "vlan20";
         address = [
           "192.0.2.1/24"
+        ];
+        networkConfig.LinkLocalAddressing = "no";
+      };
+      "31-vlan20-iot2" = {
+        matchConfig.Name = "vlan30";
+        address = [
+          "10.0.0.1/16"
         ];
         networkConfig.LinkLocalAddressing = "no";
       };
@@ -85,7 +103,8 @@
 
       interfaces-config = {
         interfaces = [
-          "vlan20"
+          "vlan20/192.0.2.1"
+          "vlan30/10.0.0.1"
         ];
       };
       lease-database = {
@@ -103,6 +122,14 @@
             }
           ];
           subnet = "192.0.2.0/24";
+        }
+        {
+          pools = [
+            {
+              pool = "10.0.0.100 - 10.0.0.240";
+            }
+          ];
+          subnet = "10.0.0.0/16";
         }
       ];
       valid-lifetime = 4000;

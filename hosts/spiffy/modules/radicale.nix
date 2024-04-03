@@ -1,6 +1,4 @@
-{ config, ... }: let
-  inherit (import ./utils.nix) createProxyHost;
-in {
+{ config, ... }: {
 
   ### radicale (calendar-server)
   sops.secrets."radicale/htpasswd" = { sopsFile = ../../../secrets/spiffy.yaml; owner = "radicale"; };
@@ -16,7 +14,6 @@ in {
       };
     };
   };
-  services.nginx.virtualHosts."radicale.momme.world" = (createProxyHost { sslCert = "momme.world"; targetPort = 5232; });
 
   ### caldav-sync
   users.users."vdirsyncer-yee" = { isSystemUser = true; group = "vdirsyncer-yee"; };

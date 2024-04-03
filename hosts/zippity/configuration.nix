@@ -6,7 +6,7 @@
 
   networking.hostName = "zippity"; # Define your hostname.
 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 587 465 ];
   services.nginx = {
     enable = true;
     streamConfig = ''

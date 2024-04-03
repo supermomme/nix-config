@@ -1,6 +1,4 @@
-{ ... }: let
-  inherit (import ./utils.nix) createProxyHost;
-in {
+{ ... }: {
   ### ntfy
   services.ntfy-sh = {
     enable = true;
@@ -11,5 +9,4 @@ in {
       auth-default-access = "write-only";
     };
   };
-  services.nginx.virtualHosts."ntfy.momme.world" = (createProxyHost { sslCert = "momme.world"; targetPort = 4363; });
 }

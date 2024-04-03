@@ -2,7 +2,7 @@
   security.sudo.wheelNeedsPassword = false;
   users.users.momme = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "syncthing" ];
+    extraGroups = [ "wheel" "syncthing" "libvirtd" ];
     packages = with pkgs; [
   #     firefox
   #     tree

@@ -18,6 +18,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    momme-world = {
+      url = "github:supermomme/momme.world";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     simple-nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-23.05";
 
   };

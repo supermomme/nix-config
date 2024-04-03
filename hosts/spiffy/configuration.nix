@@ -1,21 +1,4 @@
-{ inputs, config, lib, pkgs, modulesPath, ... }:
-let
-  createProxyHost = { sslCert, targetPort, extraConfig ? "" }: {
-    forceSSL = true;
-    sslCertificateKey = "/var/lib/acme/${sslCert}/key.pem";
-    sslCertificate = "/var/lib/acme/${sslCert}/cert.pem";
-    locations."/" = {
-      proxyPass = "http://127.0.0.1:${toString(targetPort)}";
-      proxyWebsockets = true;
-      extraConfig = ''
-        proxy_ssl_server_name on;
-        proxy_pass_header Authorization;
-        ${extraConfig}
-      '';
-    };
-  };
-in
-{
+{ inputs, config, lib, pkgs, modulesPath, ... }: {
   imports = [
     ./hardware-configuration.nix
     ./modules/homeassistant.nix
@@ -25,7 +8,6 @@ in
     ./modules/ntfy.nix
     ./modules/radicale.nix
     ./modules/samba.nix
-    ./modules/wg-calendar-generator.nix
   ];
 
   ### acme
@@ -48,27 +30,126 @@ in
     };
   };
 
-
-  ### nginx-proxy
-  services.nginx = {
-    enable = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-    appendHttpConfig = ''
-      error_log stderr;
-      access_log syslog:server=unix:/dev/log combined;
-    '';
-    # other Nginx options
-    virtualHosts.localhost = {
-      serverName = "localhost";
-      extraConfig = "deny all;";
-      root = pkgs.runCommand "testdir" {} ''
-        mkdir "$out"
-        echo you should not be here > "$out/index.html"
-      '';
-    };
+  environment.etc."momme-world-frontpage" = {
+    mode = "symlink";
+    source = inputs.momme-world.packages.x86_64-linux.default;
+  };
+  environment.etc."wg-calender-generator" = {
+    mode = "symlink";
+    source = inputs.wg-calendar-generator.packages.x86_64-linux.default;
   };
 
+  services.nginx = {
+    enable = true;
+    config = ''
+      events {
+        worker_connections  4096;
+      }
+      http {
+        include ${pkgs.mailcap}/etc/nginx/mime.types;
+        error_log stderr;
+        access_log syslog:server=unix:/dev/log combined;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Server $host;
+
+        map $http_upgrade $connection_upgrade{
+          default upgrade;
+          `` close;
+        }
+
+        server {
+          listen 443 ssl;
+          server_name momme.world;
+          ssl_certificate /var/lib/acme/momme.world/cert.pem;
+          ssl_certificate_key /var/lib/acme/momme.world/key.pem;
+          index index.html;
+          root html;
+          location / {
+            root /etc/momme-world-frontpage;
+            try_files $uri $uri/ $uri.html =404;
+          }
+        }
+
+        server {
+          listen 443 ssl;
+          server_name wg-calendar-generator.momme.world;
+          ssl_certificate /var/lib/acme/momme.world/cert.pem;
+          ssl_certificate_key /var/lib/acme/momme.world/key.pem;
+          index index.html;
+          root html;
+          location / {
+            root /etc/wg-calender-generator;
+            try_files $uri $uri/ $uri.html =404;
+          }
+        }
+
+        server {
+          listen 443 ssl;
+          server_name radicale.momme.world;
+          ssl_certificate /var/lib/acme/momme.world/cert.pem;
+          ssl_certificate_key /var/lib/acme/momme.world/key.pem;
+          location / {
+            proxy_pass http://127.0.0.1:5232;
+          }
+        }
+
+        server {
+          listen 443 ssl;
+          server_name ntfy.momme.world;
+          ssl_certificate /var/lib/acme/momme.world/cert.pem;
+          ssl_certificate_key /var/lib/acme/momme.world/key.pem;
+          location / {
+            proxy_pass http://127.0.0.1:4363;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+          }
+        }
+
+        server {
+          listen 443 ssl;
+          server_name yt.momme.world;
+          ssl_certificate /var/lib/acme/momme.world/cert.pem;
+          ssl_certificate_key /var/lib/acme/momme.world/key.pem;
+          location / {
+            proxy_pass http://127.0.0.1:${toString(config.services.invidious.port)};
+          }
+        }
+        server {
+          listen 443 ssl;
+          server_name yt.internal.momme.world;
+          ssl_certificate /var/lib/acme/internal.momme.world/cert.pem;
+          ssl_certificate_key /var/lib/acme/internal.momme.world/key.pem;
+          location / {
+            proxy_pass http://127.0.0.1:${toString(config.services.invidious.port)};
+          }
+        }
+
+        server {
+          listen 443 ssl;
+          server_name uptime.momme.world;
+          ssl_certificate /var/lib/acme/momme.world/cert.pem;
+          ssl_certificate_key /var/lib/acme/momme.world/key.pem;
+          location / {
+            proxy_pass http://127.0.0.1:3001;
+          }
+        }
+
+        server {
+          listen 443;
+          server_name *.momme.world;
+          location / {
+            return 404;
+          }
+        }
+      }
+    '';
+  };
 
   # ### syncthing
   # services.syncthing = {
