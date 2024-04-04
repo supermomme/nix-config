@@ -6,7 +6,7 @@ let
 in pkgs.mkShell {
   buildInputs = with pkgs.buildPackages; [
     (build "spiffy" "momme@100.120.137.91")
-    (build "drippy" "momme@100.118.222.97")
+    # (build "drippy" "momme@100.118.222.97")
     (build "zippity" "momme@100.70.136.32")
   ];
   packages = [

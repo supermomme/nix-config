@@ -3,10 +3,18 @@
     inputs.simple-nixos-mailserver.nixosModule
   ];
 
+  ### dns records
+  # A mail.momme.world
+  # AAAA mail.codeanker.world
+  # MX momme.world "mail.momme.world" priority=10
+  # TXT _dmarc "v=DMARC1; p=none"
+  # TXT mail._domainkey "v=DKIM1; p=xxx"
+  # TXT momme.world "v=spf1 a:mail.momme.world -all"
+
   ### mailserver
   sops.secrets."mailserver/hashedPassword" = { sopsFile = ../../../secrets/zippity.yaml; };
   mailserver = {
-    enable = false; # TODO: set to true to enable the mailserver
+    enable = true;
     openFirewall = true;
     fqdn = "mail.momme.world";
     domains = [ "momme.world" ];
@@ -16,7 +24,8 @@
     loginAccounts = {
       "admin@momme.world" = {
         hashedPasswordFile = config.sops.secrets."mailserver/hashedPassword".path;
-        aliases = ["postmaster@momme.world" "security@momme.world"];
+        aliases = ["hello@momme.world"];
+        catchAll = ["momme.world"];
       };
     };
 

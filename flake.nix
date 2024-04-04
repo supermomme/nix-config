@@ -42,20 +42,20 @@
         ];
       };
 
-      # nix-shell --command "build-drippy"
-      drippy = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        modules = [ 
-          ./hosts/drippy/configuration.nix
-          ./common/common.nix
-          ./common/sops.nix
-          ./common/users.nix
-          ./common/openssh.nix
-          ./common/tailscale.nix
-          ./common/firewall.nix
-          inputs.home-manager.nixosModules.home-manager
-        ];
-      };
+      # # nix-shell --command "build-drippy"
+      # drippy = nixpkgs.lib.nixosSystem {
+      #   specialArgs = {inherit inputs;};
+      #   modules = [ 
+      #     ./hosts/drippy/configuration.nix
+      #     ./common/common.nix
+      #     ./common/sops.nix
+      #     ./common/users.nix
+      #     ./common/openssh.nix
+      #     ./common/tailscale.nix
+      #     ./common/firewall.nix
+      #     inputs.home-manager.nixosModules.home-manager
+      #   ];
+      # };
 
       # nix-shell --command "build-zippity"
       zippity = nixpkgs.lib.nixosSystem {
