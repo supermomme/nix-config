@@ -3,6 +3,7 @@ keys:
   - &spiffy age1e7n4j8tlkuhkxk9y6v3v0r0z2lsvd7k425js4n854hg2pm63f5vsd4xlvw
   - &drippy age1x7hgr9re0sj84x35q52g59gu5wuns2t37z6hq2r42kyrxrtfqvastj22fs
   - &zippity age1slp6t7kfxnthuamwe0srmr5mwcpdrqgvm7twcz6ylxkx7sy3ugms8vtxzy
+  - &dergeraet age1dlxvjr9xl3g3w28qnlny42wugurft530l2u5afgr399y0xasxsqsmzv3l2
 creation_rules:
   - path_regex: secrets/global.yaml$
     key_groups:
@@ -11,11 +12,13 @@ creation_rules:
       - *spiffy
       - *drippy
       - *zippity
+      - *dergeraet
   - path_regex: secrets/spiffy.yaml$
     key_groups:
     - age:
       - *primary
       - *spiffy
+      - *dergeraet
   - path_regex: secrets/drippy.yaml$
     key_groups:
     - age:
@@ -26,3 +29,4 @@ creation_rules:
     - age:
       - *primary
       - *zippity
+      - *dergeraet
