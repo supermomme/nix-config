@@ -10,6 +10,16 @@
     ./modules/samba.nix
   ];
 
+  security.sudo.wheelNeedsPassword = false;
+  users.users.momme = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "syncthing" "libvirtd" ];
+    packages = with pkgs; [];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPGZ1R2leDvakw36bFBa9U7IQruW6DjbHahHfZqTerD6"
+    ];
+  };
+
   ### acme
   sops.secrets."cloudflare-creds" = { sopsFile = ../../secrets/spiffy.yaml; };
   security.acme = {

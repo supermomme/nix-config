@@ -4,8 +4,19 @@
     ./modules/mailserver.nix
   ];
 
+  security.sudo.wheelNeedsPassword = false;
+  users.users.momme = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "syncthing" "libvirtd" ];
+    packages = with pkgs; [];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPGZ1R2leDvakw36bFBa9U7IQruW6DjbHahHfZqTerD6"
+    ];
+  };
+
   networking.hostName = "zippity"; # Define your hostname.
 
+  networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 80 443 25 993 587 465 ];
   services.nginx = {
     enable = true;

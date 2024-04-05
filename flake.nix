@@ -24,50 +24,44 @@
     };
 
     simple-nixos-mailserver.url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-23.05";
-
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {
     nixosConfigurations = {
+      # sudo nixos-rebuild switch --flake .#dergeraet
+      dergeraet = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/dergeraet/configuration.nix
+          ./modules/base.nix
+          ./modules/locale.nix
+          ./modules/tailscale.nix
+        ];
+      };
+
       # nix-shell --command "build-spiffy"
       spiffy = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         modules = [ 
           ./hosts/spiffy/configuration.nix
-          ./common/common.nix
-          ./common/sops.nix
-          ./common/users.nix
-          ./common/openssh.nix
-          ./common/tailscale.nix
+          ./modules/base.nix
+          ./modules/openssh.nix
+          ./modules/tailscale.nix
+          ./modules/locale.nix
+          ./modules/sops.nix
         ];
       };
-
-      # # nix-shell --command "build-drippy"
-      # drippy = nixpkgs.lib.nixosSystem {
-      #   specialArgs = {inherit inputs;};
-      #   modules = [ 
-      #     ./hosts/drippy/configuration.nix
-      #     ./common/common.nix
-      #     ./common/sops.nix
-      #     ./common/users.nix
-      #     ./common/openssh.nix
-      #     ./common/tailscale.nix
-      #     ./common/firewall.nix
-      #     inputs.home-manager.nixosModules.home-manager
-      #   ];
-      # };
 
       # nix-shell --command "build-zippity"
       zippity = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         modules = [ 
           ./hosts/zippity/configuration.nix
-          ./common/common.nix
-          ./common/sops.nix
-          ./common/users.nix
-          ./common/openssh.nix
-          ./common/tailscale.nix
-          ./common/firewall.nix
+          ./modules/base.nix
+          ./modules/sops.nix
+          ./modules/openssh.nix
+          ./modules/locale.nix
+          ./modules/tailscale.nix
         ];
       };
     };
