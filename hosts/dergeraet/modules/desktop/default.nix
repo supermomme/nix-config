@@ -2,6 +2,7 @@
 
   imports = [
     ./sway.nix
+    ./suspend-and-hibernate.nix
   ];
 
   environment.sessionVariables = { GTK_THEME = "Adwaita:dark"; }; # does this work?
