@@ -24,7 +24,7 @@
     loginAccounts = {
       "admin@momme.world" = {
         hashedPasswordFile = config.sops.secrets."mailserver/hashedPassword".path;
-        aliases = ["hello@momme.world"];
+        aliasesRegexp = ["/^.*@momme\\.world$/"];
         catchAll = ["momme.world"];
       };
     };
