@@ -20,6 +20,7 @@
     bat # cat but with highlighting
     exiftool
     lm_sensors # hardware monitorings
+    pciutils # lspci
   ];
 
 }

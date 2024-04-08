@@ -25,6 +25,7 @@
 
   networking.hostName = "dergeraet"; # Define your hostname.
 
+  sops.age.keyFile = /home/momme/.config/sops/age/keys.txt;
 
   users.users.momme = {
     isNormalUser = true;

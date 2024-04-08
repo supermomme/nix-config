@@ -19,6 +19,10 @@ creation_rules:
       - *primary
       - *spiffy
       - *dergeraet
+  - path_regex: secrets/dergeraet.yaml$
+    key_groups:
+    - age:
+      - *dergeraet
   - path_regex: secrets/drippy.yaml$
     key_groups:
     - age:

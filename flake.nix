@@ -36,6 +36,7 @@
           ./modules/base.nix
           ./modules/locale.nix
           ./modules/tailscale.nix
+          inputs.sops-nix.nixosModules.sops
         ];
       };
 
