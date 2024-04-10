@@ -8,6 +8,7 @@
     ./modules/ntfy.nix
     ./modules/radicale.nix
     ./modules/samba.nix
+    ./modules/gatus.nix
   ];
 
   security.sudo.wheelNeedsPassword = false;
