@@ -19,10 +19,6 @@
     ./modules/zsh.nix
   ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   networking.hostName = "dergeraet"; # Define your hostname.
 
   sops.age.keyFile = /home/momme/.config/sops/age/keys.txt;

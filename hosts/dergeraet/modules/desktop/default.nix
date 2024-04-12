@@ -40,6 +40,7 @@
     firefox
     chromium
     ranger # file browser in console
+    ueberzug # img viewer in ranger
     thunderbird
 
     ## Message
@@ -51,6 +52,7 @@
     ## Media
     vlc
     spotify
+    feh # image viewers
 
     ## Misc
     bitwarden

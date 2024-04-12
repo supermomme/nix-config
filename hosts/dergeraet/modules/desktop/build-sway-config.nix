@@ -68,9 +68,9 @@ output * bg /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_19
 # resumed. It will also lock your screen before your computer goes to sleep.
 # exec swayidle -w timeout 900 'swaylock-fancy -p'
 
-exec swayidle -w \
-         timeout 900 'swaylock-fancy -p' \
-         before-sleep 'swaylock-fancy -p'
+# exec swayidle -w \
+#          timeout 900 'swaylock-fancy -p' \
+#          before-sleep 'swaylock-fancy -p'
 
 ### Input configuration
 #
@@ -104,7 +104,7 @@ input * {
     bindsym $mod+p exec $menu
 
     # Lock
-    bindsym $mod+l exec systemctl suspend # lock on suspend
+    bindsym $mod+l exec swaylock-fancy -p --daemonize && systemctl suspend
     bindsym $mod+Shift+l exec swaylock-fancy -p
 
     # Drag floating windows by holding down $mod and left mouse button.
