@@ -124,15 +124,6 @@
 
         server {
           listen 443 ssl;
-          server_name yt.momme.world;
-          ssl_certificate /var/lib/acme/momme.world/cert.pem;
-          ssl_certificate_key /var/lib/acme/momme.world/key.pem;
-          location / {
-            proxy_pass http://127.0.0.1:${toString(config.services.invidious.port)};
-          }
-        }
-        server {
-          listen 443 ssl;
           server_name yt.internal.momme.world;
           ssl_certificate /var/lib/acme/internal.momme.world/cert.pem;
           ssl_certificate_key /var/lib/acme/internal.momme.world/key.pem;
@@ -143,7 +134,7 @@
 
         server {
           listen 443 ssl;
-          server_name uptime.momme.world;
+          server_name status.momme.world;
           ssl_certificate /var/lib/acme/momme.world/cert.pem;
           ssl_certificate_key /var/lib/acme/momme.world/key.pem;
           location / {

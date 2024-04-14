@@ -1,47 +1,58 @@
-{ pkgs, ... }: let
+{ pkgs, config, ... }: let
   gatusConfigFile = pkgs.writeText "gatus-config" ''
     ui:
       title: "status.momme.world"
-    security:
-      basic:
-        username: "momme"
-        password-bcrypt-base64: "JDJhJDEyJDBHWU9velZSWnI3ekkuUGx5VDJkMGVOMGgxRlh6Z2kwczNZRGFOU25GNnhsSDZqTkRzM0l5"
+    alerting:
+      email:
+        from: ''${MAIL_FROM}
+        username: ''${MAIL_USERNAME}
+        password: ''${MAIL_PASSWORD}
+        host: ''${MAIL_HOST}
+        port: 587
+        to: ''${MAIL_TO}
+        default-alert:
+          description: "health check failed"
+          send-on-resolved: true
+          failure-threshold: 3
+          success-threshold: 3
     storage:
       type: sqlite
       path: /db/data.db
     endpoints:
       - name: Frontpage
         url: "https://momme.world"
-        interval: 60s
+        interval: 10s
         conditions:
           - "[STATUS] == 200"
           - "[RESPONSE_TIME] < 500"
       - name: Invidious
         url: "https://yt.momme.world"
-        interval: 60s
+        interval: 10s
         conditions:
           - "[STATUS] == 200"
           - "[RESPONSE_TIME] < 500"
       - name: ntfy
         url: "https://ntfy.momme.world"
-        interval: 60s
+        interval: 10s
         conditions:
           - "[STATUS] == 200"
           - "[RESPONSE_TIME] < 500"
       - name: radicale
         url: "https://radicale.momme.world"
-        interval: 60s
+        interval: 10s
         conditions:
           - "[STATUS] == 200"
           - "[RESPONSE_TIME] < 500"
       - name: WG-Calendar
         url: "https://wg-calendar-generator.momme.world"
-        interval: 60s
+        interval: 10s
         conditions:
           - "[STATUS] == 200"
           - "[RESPONSE_TIME] < 500"
   '';
 in {
+
+  sops.secrets."gatus/env" = { sopsFile = ../../../secrets/spiffy.yaml; };
 
   virtualisation.oci-containers = {
     containers.gatus = {
@@ -54,6 +65,7 @@ in {
       environment = {
         GATUS_CONFIG = "/config";
       };
+      environmentFiles = [ config.sops.secrets."gatus/env".path ];
     };
   };
 }

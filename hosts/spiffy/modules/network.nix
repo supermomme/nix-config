@@ -122,6 +122,24 @@
             }
           ];
           subnet = "192.0.2.0/24";
+          reservations = [
+            {
+              "hostname" = "wled-bett";
+              "hw-address" = "48:3f:Da:58:ea:c0";
+              "ip-address" = "192.0.2.100";
+            }
+            {
+              "hostname" = "wled-tannenbaum";
+              "hw-address" = "c4:5b:be:62:ac:25";
+              "ip-address" = "192.0.2.103";
+            }
+            
+            {
+              "hostname" = "wled-nightlight01";
+              "hw-address" = "48:e7:29:71:ec:7b";
+              "ip-address" = "192.0.2.104";
+            }
+          ];
         }
         {
           pools = [

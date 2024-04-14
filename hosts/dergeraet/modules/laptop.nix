@@ -18,6 +18,5 @@
   environment.systemPackages = with pkgs; [
     acpi # battery stuff
     brightnessctl
-    blueberry
   ];
 }
