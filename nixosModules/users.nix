@@ -31,6 +31,7 @@
         userEmail = "git@momme.world";
         extraConfig = {
           init.defaultBranch = "main";
+          pull.rebase = "false"; # merge
         };
       };
 

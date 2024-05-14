@@ -4,7 +4,7 @@
     ./users.nix
     ./tools.nix
     ./hyprland/hyprland.nix
-    ./hyprland/sway.nix
+    ./sway/sway.nix
     ./desktopapps.nix
     ./gaming.nix
     ./audio.nix
