@@ -50,6 +50,10 @@
     ];
   };
 
+
+  services.netbird.enable = true; # for netbird service & CLI
+  environment.systemPackages = [ pkgs.netbird-ui ]; # for GUI
+
   systemd.services.NetworkManager-wait-online.enable = false;
 
   # This value determines the NixOS release from which the default
