@@ -2,52 +2,24 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, nixpkgs-unstable, ... }:
+{ inputs, config, pkgs, lib, nixpkgs, ... }:
 
 {
   imports = [
     # Include the results of the hardware scan.
+    inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
-    ./modules/desktop/default.nix
-    ./modules/syncthing.nix
-    ./modules/vagrant.nix
-    ./modules/network.nix
-    ./modules/laptop.nix
-    ./modules/audio.nix
-    ./modules/bluetooth.nix
-    ./modules/development.nix
-    ./modules/zsh.nix
   ];
 
-  networking.hostName = "dergeraet"; # Define your hostname.
+  networking.hostName = "zolo"; # Define your hostname.
 
   conf = {
-    sway.enable = true;
+    hyprland.enable = true;
     # users.name = "momme";
+    nvidia.enable = true;
     development.enable = true;
     tailscale.enable = true;
-  };
-
-  conf = {
-    sway.enable = true;
-    development.enable = false;
-    tailscale.enable = true;
-  };
-
-  sops.age.keyFile = /home/momme/.config/sops/age/keys.txt;
-
-  # virtualbox
-  virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "momme" ];
-
-  users.users.momme = {
-    isNormalUser = true;
-    description = "momme";
-    extraGroups = [ "networkmanager" "wheel" "docker" "qemu-libvirtd" "libvirtd"  ];
-    packages = with pkgs; [];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPGZ1R2leDvakw36bFBa9U7IQruW6DjbHahHfZqTerD6"
-    ];
+    gaming.enable = true;
   };
 
   systemd.services.NetworkManager-wait-online.enable = false;

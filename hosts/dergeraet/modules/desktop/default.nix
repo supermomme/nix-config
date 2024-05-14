@@ -31,43 +31,27 @@
 
   # desktop
   environment.systemPackages = with pkgs; [
-    ## Tools
-    kitty # term
-    wev # wayland keyboard debug
-    wlr-randr # wayland screen rotation/scaling
+    where-is-my-sddm-theme
+    waybar
+    wofi
+    bemenu
+    (pkgs.waybar.overrideAttrs (oldAttrs: {
+      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+    }))
+    dunst
+    libnotify
+    kitty
 
-    ## Browser
-    firefox
-    chromium
-    ranger # file browser in console
-    ueberzug # img viewer in ranger
-    thunderbird
+    hyprpaper
 
-    ## Message
-    signal-desktop
-    element-desktop
-    telegram-desktop
-    teams-for-linux
+    cool-retro-term
+    # swaylock-fancy
+    # swaylock
+    swaylock-effects
 
-    ## Media
-    vlc
-    spotify
-    feh # image viewers
-
-    ## Misc
-    bitwarden
-    obsidian
-    libreoffice
-    okular # PDF Viewer?
-
-    ## More Misc
-    slurp # screenshotting
-    grim # screenshotting
-
-    ## Fonts
-    dejavu_fonts
-    font-awesome
-    font-awesome_5
-    unicode-emoji
+    zathura # pdf viewer
+    mpv # video viewer
+    imv # image viewer
+    vlc # media viewer
   ];
 }
